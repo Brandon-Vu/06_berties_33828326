@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add a Book</title>
+  </head>
+  <body>
+    <h1>Add a new book</h1>
+    <!-- Form to add a new book -->
+    <form method="POST" action="bookadded">
+      <p>
+        Name:
+        <input type="text" name="name" required />
+      </p>
+      <p>
+        Price (£):
+        <input type="number" step="0.01" name="price" required />
+      </p>
+      <p>
+        <input type="submit" value="Add Book" />
+      </p>
+    </form>
+
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>

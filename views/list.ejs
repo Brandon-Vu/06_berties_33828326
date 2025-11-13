@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bertie’s Books – List</title>
+  </head>
+  <body>
+    <h1>Available Books</h1>
+
+    <table border="1">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Price (£)</th>
+      </tr>
+
+      <% availableBooks.forEach(function (book) { %>
+        <tr>
+          <td><%= book.id %></td>
+          <td><%= book.name %></td>
+          <td><%= book.price %></td>
+        </tr>
+      <% }) %>
+    </table>
+  </body>
+</html>
