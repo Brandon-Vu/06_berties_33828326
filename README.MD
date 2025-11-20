@@ -1,7 +1,7 @@
 # Bertie’s Books
 
 Bertie’s Books is a Node.js + Express web application connected to a MySQL database.  
-Created by **Brandon Vu (ID: 33828326)** for the Goldsmiths Web Applications Coursework (Lab 6).
+Created by **Brandon Vu (ID: 33828326)** for the Goldsmiths Web Applications Coursework (Lab 6 & 7).
 
 ---
 
