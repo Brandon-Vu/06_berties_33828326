@@ -66,7 +66,7 @@ router.post('/bookadded', function (req, res, next) {
 });
 
 // List books that are bargains (price < 20)
-router.get('/bargains', function(req, res, next) {
+router.get('/bargainbooks', function(req, res, next) {
   let sqlquery = "SELECT * FROM books WHERE price < 20";
 
   db.query(sqlquery, (err, result) => {
