@@ -114,7 +114,7 @@ router.post('/loggedin', (req, res, next) => {
       logAttempt(username, true, ip)
       req.session.userId = username
 
-      res.redirect('/') // Redirect to home page after login
+      res.redirect('/usr/432/') // Redirect to home page after login
     })
   })
 })
