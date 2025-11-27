@@ -114,10 +114,14 @@ router.post('/loggedin', (req, res, next) => {
       logAttempt(username, true, ip)
       req.session.userId = username
 
-      res.redirect('/usr/432/') // Redirect to home page after login
+      res.redirect('./loggedin') // Redirect to home page after login
     })
   })
 })
+
+router.get('/loggedin', redirectLogin, (req, res) => {
+  res.render('loggedin.ejs', { username: req.session.userId });
+});
 
 // Audit log page
 router.get('/audit', redirectLogin, (req, res, next) => {
