@@ -74,6 +74,6 @@ const booksRoutes = require('./routes/books')
 app.use('/books', booksRoutes)
 
 // Start the server
-const port = 432; 
+const port = 3000; 
 
 app.listen(port, () => console.log(`Bertie's Books running on port ${port}!`))
