@@ -6,7 +6,7 @@ const router = express.Router()
 const redirectLogin = (req, res, next) => {
   if (!req.session.userId) {
     const base = req.app.locals.baseURL || "";
-    return res.redirect(base + '/users/login');
+    return res.redirect('./login');
   }
   next();
 };
