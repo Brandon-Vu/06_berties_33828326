@@ -8,7 +8,7 @@ const saltRounds = 10
 // Middleware to protect routes – only allow logged-in users
 const redirectLogin = (req, res, next) => {
   if (!req.session.userId) {
-    return res.redirect('/users/login')
+    return res.redirect('./login')
   }
   next()
 }
