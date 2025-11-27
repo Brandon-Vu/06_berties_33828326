@@ -22,7 +22,17 @@ const expressSanitizer = require('express-sanitizer')
 
 // Create the express application object
 const app = express()
-const port = 8000
+
+// Set up the base URL for the VM environment
+const VM_BASE = "/usr/432";  
+app.use((req, res, next) => {
+  if (req.hostname === "localhost") {
+    res.locals.baseURL = "";
+  } else {
+    res.locals.baseURL = VM_BASE;
+  }
+  next();
+});
 
 // Tell Express that we want to use EJS as the templating engine
 app.set('view engine', 'ejs')
@@ -63,5 +73,7 @@ app.use('/users', usersRoutes)
 const booksRoutes = require('./routes/books')
 app.use('/books', booksRoutes)
 
-// Start the web app listening
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+// Start the server
+const port = 432; 
+
+app.listen(port, () => console.log(`Bertie's Books running on port ${port}!`))

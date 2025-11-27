@@ -19,7 +19,7 @@ router.get('/about', function (req, res, next) {
   res.render('about.ejs')
 })
 
-// LOGOUT (updated to redirect home)
+// Logout route
 router.get('/logout', redirectLogin, (req, res) => {
   req.session.destroy(err => {
     if (err) {
