@@ -21,6 +21,23 @@ Lab 7 - Users
 - View list of registered users
 - Audit log of all login attempts (success & failures)
 
+Lab 8 - Authorisation, Sanitisation, and Validation
+- Protected routes using session checking
+- Only logged-in users can:
+- Add a book
+- View the full book list
+- View bargain books
+- View the audit log
+- View the list of users
+- All user inputs are sanitised using express-sanitizer
+- Registration validation using express-validator:
+- Valid email required
+- Username length enforced
+- Password minimum length
+- Login sanitisation and secure comparison
+- All book form inputs fully sanitised before database insertion
+- Prevents XSS and invalid data entries
+
 ---
 
 ##  Technologies Used
@@ -32,6 +49,9 @@ Lab 7 - Users
 - CSS
 - bcrypt
 - dotenv
+- express-session
+- express-validator
+- express-sanitizer
 - Forever (for deployment on the Goldsmiths VM)
 
 ---
