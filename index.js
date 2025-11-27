@@ -1,4 +1,3 @@
-app.locals.baseURL = process.env.BASE_URL || "";
 var mysql = require('mysql2');
 require('dotenv').config()
 
@@ -25,6 +24,9 @@ const expressSanitizer = require('express-sanitizer')
 const app = express()
 const port = 8000
 
+// Set the base URL for the app (from environment or default to empty)
+app.locals.baseURL = process.env.BASE_URL || "";
+
 // Tell Express that we want to use EJS as the templating engine
 app.set('view engine', 'ejs')
 
@@ -38,7 +40,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      expires: 600000, 
+      expires: 600000, // Session expires after 10 minutes of inactivity
     },
   })
 )
