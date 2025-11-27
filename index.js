@@ -24,6 +24,9 @@ const expressSanitizer = require('express-sanitizer')
 const app = express()
 const port = 8000
 
+// Set the base URL for the app
+app.locals.baseURL = process.env.BASE_URL || ""
+
 // Tell Express that we want to use EJS as the templating engine
 app.set('view engine', 'ejs')
 
@@ -37,12 +40,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      expires: 600000, // 10 minutes till expiration
+      expires: 600000, // 10 minutes
     },
   })
 )
 
-// Create an input sanitizer
+// Set up express-sanitizer
 app.use(expressSanitizer())
 
 // Set up public folder (for css and static js)
