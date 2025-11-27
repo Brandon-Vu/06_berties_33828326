@@ -1,4 +1,4 @@
-
+app.locals.baseURL = process.env.BASE_URL || "";
 var mysql = require('mysql2');
 require('dotenv').config()
 
