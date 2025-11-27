@@ -2,90 +2,57 @@
 const express = require("express")
 const router = express.Router()
 
-// Reuse the same pattern for route protection
-const redirectLogin = (req, res, next) => {
-  if (!req.session.userId) {
-    const base = req.app.locals.baseURL || "";
-    return res.redirect(base + '/users/login');
-  }
-  next();
-};
-
-router.get('/search', function (req, res, next) {
-  res.render("search.ejs")
-})
-
-router.get('/search_result', function (req, res, next) {
-  // Sanitise search text to avoid XSS
-  const rawKeyword = req.query.search_text || ''
-  const keyword = req.sanitize(rawKeyword)
-
-  // Perform the database query to find books matching the keyword
-  let sqlquery = "SELECT * FROM books WHERE name LIKE ?";
-  let searchTerm = '%' + keyword + '%';
-
-  db.query(sqlquery, [searchTerm], (err, result) => {
-    if (err) {
-      next(err);
-    } else {
-      res.render('searchresult.ejs', {
-        keyword: keyword,
-        results: result
-      });
-    }
-  });
+router.get('/search',function(req, res, next){
+    res.render("search.ejs")
 });
 
-// List all books – protect so only logged-in users can see list
-router.get('/list', redirectLogin, function (req, res, next) {
-  let sqlquery = "SELECT * FROM books";
-
-  db.query(sqlquery, (err, result) => {
-    if (err) {
-      next(err);
-    } else {
-      res.render('list.ejs', { availableBooks: result });
-    }
-  });
+router.get('/list', function(req, res, next) {
+    let sqlquery = "SELECT * FROM books"; 
+    db.query(sqlquery, (err, result) => {
+        if (err) {
+            next(err)
+        }
+        res.render("list.ejs", {availableBooks:result})
+        });
+});
+router.post('/bookadded', function (req, res, next) {
+    // saving data in database
+    let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)"
+    // execute sql query
+    let newrecord = [ req.sanitize(req.body.name),req.sanitize(req.body.price)]
+    db.query(sqlquery, newrecord, (err, result) => {
+        if (err) {
+            next(err)
+        }
+        else
+            res.send(' This book is added to database, name: '+ req.sanitize(req.body.name) + ' price '+ req.sanitize(req.body.price))
+    })
+}) 
+router.get('/bargainbooks', function(req, res, next) {
+    let sqlquery = "SELECT name, price FROM books WHERE price < 20"; // query database to get all the books
+    // execute sql query
+    db.query(sqlquery, (err, result) => {
+        if (err) {
+            next(err)
+        }
+        res.render("bargainbooks.ejs", {availableBooks:result})
+        });
 });
 
-// Show the add book form – protect as it modifies data
-router.get('/addbook', redirectLogin, function (req, res) {
-  res.render('addbook.ejs');
+router.get('/search-result', (req, res, next) => {
+    const keyword = req.query.search_text;
+    const sqlquery = "SELECT * FROM books WHERE name LIKE ?";
+    const searchTerm = `%${keyword}%`;
+
+    db.query(sqlquery, [searchTerm], (err, result) => {
+        if (err) return next(err);
+
+        res.render('search.ejs', {
+            shopData: { shopName: "Bertie's Books" },
+            keyword: keyword,
+            books: result
+        });
+    });
 });
-
-// Handle the add book form submission – protect + sanitise
-router.post('/bookadded', redirectLogin, function (req, res, next) {
-  let sqlquery = "INSERT INTO books (name, price) VALUES (?, ?)";
-  const name = req.sanitize(req.body.name)
-  const price = req.body.price
-
-  let newrecord = [name, price];
-
-  db.query(sqlquery, newrecord, (err, result) => {
-    if (err) {
-      next(err);
-    } else {
-      res.send(
-        'Book added: ' +
-        name +
-        ' (£' +
-        price +
-        ')'
-      );
-    }
-  });
-});
-
-// List books that are bargains (price < 20) – also protect
-router.get('/bargainbooks', redirectLogin, function (req, res, next) {
-  let sqlquery = "SELECT * FROM books WHERE price < 20";
-
-  db.query(sqlquery, (err, result) => {
-    if (err) next(err);
-    else res.render('list.ejs', { availableBooks: result });
-  });
-});
-
 // Export the router object so index.js can access it
 module.exports = router
