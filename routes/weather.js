@@ -11,6 +11,13 @@ router.post('/', (req, res) => {
     const city = req.body.city;
     const apiKey = process.env.WEATHER_API_KEY;
 
+    console.log("City:", city);
+    console.log("API Key:", apiKey);
+
+    if (!city || !apiKey) {
+        return res.render("weather", { weather: null, error: "Missing city or API key" });
+    }
+
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
 
     request(url, (err, response, body) => {
@@ -21,6 +28,7 @@ router.post('/', (req, res) => {
         let data = JSON.parse(body);
 
         if (!data || !data.main) {
+            console.log("API Response:", data); 
             return res.render("weather", { weather: null, error: "City not found" });
         }
 
